@@ -4,6 +4,11 @@ import pandas as pd
 import re
 import matplotlib.pyplot as plt
 
+check_fidc = {'start' : 0,
+              'length': 100}
+encode_ = urllib.parse.urlencode(check_fidc)
+link = 'http://www.liberumratings.com.br/pt/src/ratings/server_processing.php?' + encode_
+page = requests.get(link, verify=False).text
 df = pd.read_json(page)['data'].apply(pd.Series)
 newdata = pd.DataFrame([the_index[23:] for the_index in df[2]], columns=['Instituição'])
 newdata.insert(0,'Data', df[0].to_list())
